@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        return Product::paginate(10);
     }
 
     /**
@@ -78,6 +78,6 @@ class ProductController extends Controller
      */
     public function search($name)
     {
-        return Product::where('name', 'like', '%'.$name.'%')->get();
+        return Product::where('name', 'like', '%'.$name.'%')->paginate(10);
     }
 }
