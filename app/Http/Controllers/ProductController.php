@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::paginate(10);
+        return Product::paginate(5);
     }
 
     /**
@@ -54,8 +54,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return 'test';
+        $request->validate([
+            'name' => 'required',
+            'slug' => 'required',
+            'price' => 'required'
+        ]);
+
         $product = Product::find($id);
-        $product->update($request->all());
+        // $product->update($request->all());
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
         return $product;
     }
 
@@ -78,6 +90,6 @@ class ProductController extends Controller
      */
     public function search($name)
     {
-        return Product::where('name', 'like', '%'.$name.'%')->paginate(10);
+        return Product::where('name', 'like', '%'.$name.'%')->paginate(5);
     }
 }
