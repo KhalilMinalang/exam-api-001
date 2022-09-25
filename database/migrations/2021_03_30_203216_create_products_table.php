@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->string('image_link');
             $table->string('description')->nullable();
             $table->decimal('price', 5, 2);
+            $table->boolean('is_published');
             $table->timestamps();
         });
     }

@@ -28,8 +28,11 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'image_link' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            // 'is_published' => 'required|boolean'
         ]);
+
+        $request->is_published ? $request->is_published : false;
 
         return Product::create($request->all());
     }
@@ -57,7 +60,8 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'image_link' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'is_published' => 'required|boolean'
         ]);
 
         $product = Product::find($id);
@@ -66,6 +70,8 @@ class ProductController extends Controller
         $product->image_link = $request->image_link;
         $product->description = $request->description;
         $product->price = $request->price;
+        $product->is_published = $request->is_published;
+        $product->save();
         return $product;
     }
 
