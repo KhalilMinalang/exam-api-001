@@ -64,7 +64,6 @@ class ProductController extends Controller
         // $product->update($request->all());
         $product->name = $request->name;
         $product->image_link = $request->image_link;
-        $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
         return $product;
