@@ -14,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::paginate(5);
+        // return Product::paginate(5);
+        return auth()->user()->products()->paginate(5);
     }
 
     /**
@@ -25,6 +26,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // return auth()->user()->id;
         $request->validate([
             'name' => 'required',
             'image_link' => 'required',
@@ -32,9 +34,14 @@ class ProductController extends Controller
             // 'is_published' => 'required|boolean'
         ]);
 
-        $request->is_published ? $request->is_published : false;
-
-        return Product::create($request->all());
+        $product = new Product;
+        $product->name = $request->name;
+        $product->user_id = auth()->user()->id;
+        $product->image_link = $request->image_link;
+        $product->price = $request->price;
+        $product->is_published = $request->is_published ? $request->is_published : false;
+        $product->save();
+        return $product;
     }
 
     /**
@@ -45,7 +52,15 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return Product::find($id);
+        // return Product::find($id);
+        $product = auth()->user()->products->where('id', $id)->first();
+        if ($product) {
+            return $product;
+        }
+        // return "Product not found or does not belong to the current authenticated user";
+        return response([
+                'message' => 'Product not found or does not belong to the current authenticated user'
+            ], 404);
     }
 
     /**
